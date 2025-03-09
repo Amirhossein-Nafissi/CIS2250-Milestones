@@ -150,7 +150,7 @@ def main(argv):
     for i in list_of_occupations:
         education_occurancies_per_occupation.append([0] * len(list_of_education_levels_value)) # this syntax was inspired by this link: https://sparkbyexamples.com/python/create-a-list-of-zeros-in-python/#:~:text=You%20can%20use%20'%20*%20'%20multiplication,zeros()%20functions.
     
-    
+    # printing before filling
     print("#############################")
     for i in education_occurancies_per_occupation:
         for j in i:
@@ -161,6 +161,7 @@ def main(argv):
     
     #
     # THE FOR LOOP BELOW IS NOT EXECUTING!!!!!!!!!!!!!!!!!!!!
+    # run like this: python3 question_2_script.py question_2_sample_data.csv
     #
     
     file_reader = csv.reader(namedata_fh)
@@ -177,18 +178,48 @@ def main(argv):
         job_vacancy_characteristics = row_data_fields[4] # the education level
         status = row_data_fields[13]
         
-        print("Index job: ", list_of_occupations.index(national_Occupational_Classification))
-        print("Index education: ", list_of_education_levels.index(job_vacancy_characteristics))
+        index_of_job = list_of_occupations.index(national_Occupational_Classification)
+        index_of_education = list_of_education_levels.index(job_vacancy_characteristics)
         
-        education_occurancies_per_occupation[list_of_occupations.index(national_Occupational_Classification)][list_of_education_levels.index(job_vacancy_characteristics)] += 1
+        # print("Index job: ", list_of_occupations.index(national_Occupational_Classification))
+        # print("Index education: ", list_of_education_levels.index(job_vacancy_characteristics))
+        
+        education_occurancies_per_occupation[index_of_job][index_of_education] += 1
         
     
-    #printing
+    #printing after filling
     print("#############################")
     for i in education_occurancies_per_occupation:
         for j in i:
             print(j, end = " ")
         print()
+    
+    # printing final product:
+    print("\"Occupation\",\"Education Level Value\"")
+    
+    greatest_value = -1
+    greatest_index = 0
+    
+    for job in list_of_occupations:
+        
+        index_of_job = list_of_occupations.index(job)
+        
+        #find education level with most occurancies
+        for i in range(0, len(education_occurancies_per_occupation[index_of_job])):
+            if education_occurancies_per_occupation[index_of_job][i] > greatest_value:
+                greatest_index = i
+        
+        print(f"\"{job}\",\"{education_occurancies_per_occupation[index_of_job][greatest_index]}\"")
+        
+        #set values back to default for next iteration
+        greates_value = -1
+        greatest_index = 0      
+                
+        
+            
+        
+        
+        
             
                 
 
