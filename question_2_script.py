@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 '''
-extract_software_by_province.py
+question_2_script.py
   Author(s): Amirhossein Nafissi (1319709), Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
   Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright
 
-  Project: Project Kickoff Lab
-  Date of Last Update: Feb 26, 2025.
+  Project: Milestone II
+  Date of Last Update: March 8, 2025.
 
   Functional Summary
-      extract_software_by_province.py takes in a CSV (comma separated version) file 
+      question_2_script.py takes in a CSV (comma separated version) file 
       and prints out the fields according to the command line parameters found below:
 
       There are expected to be three fields:
@@ -65,7 +65,7 @@ def main(argv):
     #   and store the single command line argument in a variable with
     #   a better name
     #
-    if len(argv) != 3:
+    if len(argv) != 2:
         print("Not enough arguments")
 
         # we exit with a zero when everything goes well, so we choose
@@ -74,7 +74,6 @@ def main(argv):
 
     #getting command line arguments
     namedata_filename = sys.argv[1]
-    region_Name = sys.argv[2]
 
     #
     # Open the name data input file.  The encoding argument
@@ -106,43 +105,126 @@ def main(argv):
     # printing the header (extracting the first line)
     #
 
+    # variables:
     read_first_line = False
+    
+    list_of_education_levels = [] # to hold education levels (only one occurance)
+    list_of_education_levels_value = [] # same as above but represented by a value, will be kept parrarel to the first
+    
+    list_of_occupations = [] # to hold occupations (only one occurance)
+    count = 0
 
+    # getting occurancies of each field:
     for row_data_fields in file_reader:
-
-        #reading the header
-        if not read_first_line:
-            REF_DATE = row_data_fields[0]
-            GEO = row_data_fields[1]
-            National_Occupational_Classification = row_data_fields[3]
-            job_vacancy_characteristics = row_data_fields[4]
-            statistics = row_data_fields[5]
-            VALUE = row_data_fields[12]
-
-            print(f"{REF_DATE},{GEO},{National_Occupational_Classification},{job_vacancy_characteristics},{statistics},{VALUE}")
-
+    
+        if not read_first_line: #skip reading the header
             read_first_line = True
+            continue
         
-        #reading the rest of the data
-        if read_first_line:
-            REF_DATE = row_data_fields[0]
-            GEO = row_data_fields[1]
-            National_Occupational_Classification = row_data_fields[3]
-            job_vacancy_characteristics = row_data_fields[4]
-            statistics = row_data_fields[5]
-            VALUE = row_data_fields[12]
-
-            #checking if VALUE is empty
-            if VALUE == '':
-                VALUE = '0'
+        national_Occupational_Classification = row_data_fields[3]
+        job_vacancy_characteristics = row_data_fields[4]
+        status = row_data_fields[13]
+        
+        if job_vacancy_characteristics not in list_of_education_levels:
             
-            #printing filtered data
-            if GEO == region_Name:
-                if National_Occupational_Classification == "Software engineers and designers [2173]":
-                    if job_vacancy_characteristics == "Bachelor's degree":
-                        if statistics == "Job vacancies":
+            #add to list and assign it a value
+            list_of_education_levels.append(job_vacancy_characteristics)
+            list_of_education_levels_value.append(count)
+
+            # #print it
+            # print(f"\"{job_vacancy_characteristics}\",{count}")
+            
+            # count += 1
+        
+        if national_Occupational_Classification not in list_of_occupations:
+            list_of_occupations.append(national_Occupational_Classification)
+    
+    # making a 2D array containing the occurancies of each job per occupation.
+    # it contains a list for every job, each indexed from 0 to # of different education levels
+    # in the for loop after this one, whenever a education level was seen for that job occupation, the specific index 
+    # representing the education level will be incremented by one, counting the occurancy. The index with the highest
+    # occurancy will be the average education level for that specific occupation. 
+    
+    education_occurancies_per_occupation = []
+    
+    for i in list_of_occupations:
+        education_occurancies_per_occupation.append([0] * len(list_of_education_levels_value)) # this syntax was inspired by this link: https://sparkbyexamples.com/python/create-a-list-of-zeros-in-python/#:~:text=You%20can%20use%20'%20*%20'%20multiplication,zeros()%20functions.
+    
+    
+    print("#############################")
+    for i in education_occurancies_per_occupation:
+        for j in i:
+            print(j, end = " ")
+        print()
+    
+    # read the file:
+    
+    #
+    # THE FOR LOOP BELOW IS NOT EXECUTING!!!!!!!!!!!!!!!!!!!!
+    #
+    
+    file_reader = csv.reader(namedata_fh)
+    
+    read_first_line = False # set it back to false
+    
+    for row_data_fields in file_reader:
+        
+        if not read_first_line: #skip reading the header
+            read_first_line = True
+            continue
+        
+        national_Occupational_Classification = row_data_fields[3] # the occupation
+        job_vacancy_characteristics = row_data_fields[4] # the education level
+        status = row_data_fields[13]
+        
+        print("Index job: ", list_of_occupations.index(national_Occupational_Classification))
+        print("Index education: ", list_of_education_levels.index(job_vacancy_characteristics))
+        
+        education_occurancies_per_occupation[list_of_occupations.index(national_Occupational_Classification)][list_of_education_levels.index(job_vacancy_characteristics)] += 1
+        
+    
+    #printing
+    print("#############################")
+    for i in education_occurancies_per_occupation:
+        for j in i:
+            print(j, end = " ")
+        print()
+            
+                
+
+        # #reading the header
+        # if not read_first_line:
+        #     REF_DATE = row_data_fields[0]
+        #     GEO = row_data_fields[1]
+        #     National_Occupational_Classification = row_data_fields[3]
+        #     job_vacancy_characteristics = row_data_fields[4]
+        #     statistics = row_data_fields[5]
+        #     VALUE = row_data_fields[12]
+
+        #     print(f"{REF_DATE},{GEO},{National_Occupational_Classification},{job_vacancy_characteristics},{statistics},{VALUE}")
+
+        #     read_first_line = True
+        
+        # #reading the rest of the data
+        # if read_first_line:
+        #     REF_DATE = row_data_fields[0]
+        #     GEO = row_data_fields[1]
+        #     National_Occupational_Classification = row_data_fields[3]
+        #     job_vacancy_characteristics = row_data_fields[4]
+        #     statistics = row_data_fields[5]
+        #     VALUE = row_data_fields[12]
+
+        #     #checking if VALUE is empty
+        #     if VALUE == '':
+        #         VALUE = '0'
+            
+        #     #printing filtered data
+        #     if GEO == region_Name:
+        #         if National_Occupational_Classification == "Software engineers and designers [2173]":
+        #             if job_vacancy_characteristics == "Bachelor's degree":
+        #                 if statistics == "Job vacancies":
                         
-                            print(f"{REF_DATE},{GEO},{National_Occupational_Classification},{job_vacancy_characteristics},{statistics},{VALUE}")
+        #                     print(f"{REF_DATE},{GEO},{National_Occupational_Classification},{job_vacancy_characteristics},{statistics},{VALUE}")
 
     #
     #   End of Function
