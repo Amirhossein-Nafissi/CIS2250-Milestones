@@ -224,7 +224,7 @@ def main(argv):
     first_greatest_index = 0
     second_greatest_index = 0
     
-    
+     
     for job in list_of_occupations:
         
         index_of_job = list_of_occupations.index(job)
