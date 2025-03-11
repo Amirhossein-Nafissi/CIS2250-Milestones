@@ -2,7 +2,7 @@
 
 '''
 question_2_script.py
-  Author(s): Amirhossein Nafissi (1319709)
+  Author(s): Amirhossein Nafissi (1319709) #####################
   Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright, Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
 
   Project: Milestone II
