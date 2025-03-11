@@ -25,7 +25,7 @@ question_2_script.py
         argv[1] - data file to load the fields process
         argv[2] - data file that contains all other data
         
-        How to Run: python3 question_2_script.py question_2_sample_data.csv 14100328.csv > [file_output_name].csv
+        How to Run: python3 question_2_script.py question_2_loading_data.csv 14100328.csv > question_2_output.csv
 
      References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410032805 
