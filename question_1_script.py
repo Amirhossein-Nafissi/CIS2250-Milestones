@@ -1,15 +1,85 @@
+#!/usr/bin/env python3
+'''
+question_1_script.py
+  Author(s): Arya Rahimian Emam (1319709)
+  Earlier contributors(s):
+
+  Project: Milestone II
+  Date of Last Update: March 11, 2025.
+
+  Functional Summary
+      question_1_script.py takes in a CSV (comma separated version) file 
+      and prints out the fields according to the command line parameters found below:
+
+      There are expected to be three fields:
+          1. data file to process
+          2. an argument indicating either the name of a province, 
+            or the word “Canada” which will extract only the national data.
+
+      First it prints the header, and then prints the fields that are the same as the command line parameters.
+      The data is also filtered by only showing "Software engineers and designers [2173]" for National Occupational Classification
+      and "Job vacancies" for Statistics.
+
+     Commandline Parameters: 1
+        argv[1] - data file to load the fields process
+        argv[2] - data file that contains all other data
+        
+        How to Run: python3 question_2_script.py question_2_sample_data.csv 14100328.csv > [file_output_name].csv
+
+     References
+        The data is taked from 
+'''
+
+#
+#   Packages and modules
+#
+
 import sys
 import csv
 
 def main(argv):
+    
+    #
+    #   Check that we have been given the right number of parameters,
+    #
+    
     if len(argv) != 3:
-        sys.exit(1)  # Ensure correct usage
+        
+        print("Not enough arguments")
+        
+        sys.exit(1)
 
-    job_vacancies_file = argv[1]
-    earnings_file = argv[2]
+    #getting file names from command line:
+    job_vacancies_file = sys.argv[1]
+    earnings_file = sys.argv[2]
 
-    job_fh = open(job_vacancies_file, encoding="utf-8-sig")
-    earnings_fh = open(earnings_file, encoding="utf-8-sig")
+    
+    #opening files and error handeling:
+    
+    try: 
+        job_fh = open(job_vacancies_file, encoding="utf-8-sig") #for first file
+
+    except IOError as err:
+        # Here we are using the python format() function.
+        # The arguments passed to format() are placed into
+        # the string it is called on in the order in which
+        # they are given.
+        print("Unable to open names file '{}' : {}".format(
+                job_vacancies_file, err), file=sys.stderr)
+        sys.exit(1)
+    
+    #for second file
+    try:
+        earnings_fh = open(earnings_file, encoding="utf-8-sig") 
+
+    except IOError as err:
+        # Here we are using the python format() function.
+        # The arguments passed to format() are placed into
+        # the string it is called on in the order in which
+        # they are given.
+        print("Unable to open names file '{}' : {}".format(
+                job_vacancies_file, err), file=sys.stderr)
+        sys.exit(1)
 
     # Read job vacancies data
     job_reader = csv.reader(job_fh)
@@ -21,7 +91,7 @@ def main(argv):
     value_idx = job_header.index("VALUE")
     status_idx = job_header.index("STATUS")
 
-    job_vacancies = {}
+    job_vacancies = {} #initialize dictionary
 
     for row in job_reader:
         date = row[date_idx]
