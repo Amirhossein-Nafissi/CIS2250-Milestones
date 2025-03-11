@@ -2,8 +2,8 @@
 
 '''
 question_2_script.py
-  Author(s): Amirhossein Nafissi (1319709), Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
-  Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright
+  Author(s): Amirhossein Nafissi (1319709)
+  Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright, Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
 
   Project: Milestone II
   Date of Last Update: March 8, 2025.
@@ -22,9 +22,10 @@ question_2_script.py
       and "Job vacancies" for Statistics.
 
      Commandline Parameters: 1
-        argv[1] - data file to process
-        argv[2] - an argument indicating either the name of a province, 
-            or the word “Canada” which will extract only the national data.
+        argv[1] - data file to load the fields process
+        argv[2] - data file that contains all other data
+        
+        How to Run: python3 question_2_script.py question_2_sample_data.csv 14100328.csv > [file_output_name].csv
 
      References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410032805 
@@ -65,7 +66,7 @@ def main(argv):
     #   and store the single command line argument in a variable with
     #   a better name
     #
-    if len(argv) != 2:
+    if len(argv) != 3:
         print("Not enough arguments")
 
         # we exit with a zero when everything goes well, so we choose
@@ -73,15 +74,17 @@ def main(argv):
         sys.exit(1)
 
     #getting command line arguments
-    namedata_filename = sys.argv[1]
+    load_data_filename = sys.argv[1]
+    full_data_filename = sys.argv[2]
+    
 
     #
-    # Open the name data input file.  The encoding argument
+    # Open the load data input file.  The encoding argument
     # indicates that we want to handle the BOM (if present)
     # by simply ignoring it.
     #
     try:
-        namedata_fh = open(namedata_filename, encoding="utf-8-sig")
+        load_data_fh = open(load_data_filename, encoding="utf-8-sig")
 
     except IOError as err:
         # Here we are using the python format() function.
@@ -89,7 +92,22 @@ def main(argv):
         # the string it is called on in the order in which
         # they are given.
         print("Unable to open names file '{}' : {}".format(
-                namedata_filename, err), file=sys.stderr)
+                load_data_filename, err), file=sys.stderr)
+        sys.exit(1)
+        
+    #
+    # Open the full data input file
+    #
+    try:
+        full_data_fh = open(full_data_filename, encoding="utf-8-sig")
+
+    except IOError as err:
+        # Here we are using the python format() function.
+        # The arguments passed to format() are placed into
+        # the string it is called on in the order in which
+        # they are given.
+        print("Unable to open names file '{}' : {}".format(
+                full_data_filename, err), file=sys.stderr)
         sys.exit(1)
 
 
@@ -98,7 +116,7 @@ def main(argv):
     # open file handle.  We can use the reader in a loop iteration
     # in order to access each line in turn.
     #
-    file_reader = csv.reader(namedata_fh)
+    load_data_reader = csv.reader(load_data_fh)
 
 
     #
@@ -114,8 +132,8 @@ def main(argv):
     list_of_occupations = [] # to hold occupations (only one occurance)
     count = 0
 
-    # getting occurancies of each field:
-    for row_data_fields in file_reader:
+    #  getting required fields from the load data:
+    for row_data_fields in load_data_reader:
     
         if not read_first_line: #skip reading the header
             read_first_line = True
@@ -123,52 +141,49 @@ def main(argv):
         
         national_Occupational_Classification = row_data_fields[3]
         job_vacancy_characteristics = row_data_fields[4]
-        status = row_data_fields[13]
         
+        # get education level
         if job_vacancy_characteristics not in list_of_education_levels:
             
             #add to list and assign it a value
             list_of_education_levels.append(job_vacancy_characteristics)
             list_of_education_levels_value.append(count)
 
-            # #print it
+            # #print it if need be
             # print(f"\"{job_vacancy_characteristics}\",{count}")
             
-            # count += 1
+            count += 1
         
+        # get occupation
         if national_Occupational_Classification not in list_of_occupations:
             list_of_occupations.append(national_Occupational_Classification)
     
-    # making a 2D array containing the occurancies of each job per occupation.
-    # it contains a list for every job, each indexed from 0 to # of different education levels
+    # making a 2D array containing the occurancies of each education level per occupation.
+    # it contains a list for every occupation, each indexed from 0 to # of different education levels
     # in the for loop after this one, whenever a education level was seen for that job occupation, the specific index 
-    # representing the education level will be incremented by one, counting the occurancy. The index with the highest
-    # occurancy will be the average education level for that specific occupation. 
+    # representing the education level will be incremented by the amount of job vacancies, counting the occurancy. 
+    # The index with the highest occurancy will be the average education level for that specific occupation. 
     
     education_occurancies_per_occupation = []
     
     for i in list_of_occupations:
         education_occurancies_per_occupation.append([0] * len(list_of_education_levels_value)) # this syntax was inspired by this link: https://sparkbyexamples.com/python/create-a-list-of-zeros-in-python/#:~:text=You%20can%20use%20'%20*%20'%20multiplication,zeros()%20functions.
     
-    # printing before filling
-    print("#############################")
-    for i in education_occurancies_per_occupation:
-        for j in i:
-            print(j, end = " ")
-        print()
-    
-    # read the file:
+    # # printing before filling if need be
+    # print("PRINTING MATRIX BEFORE FILLING")
+    # for i in education_occurancies_per_occupation:
+    #     for j in i:
+    #         print(j, end = " ")
+    #     print()
     
     #
-    # THE FOR LOOP BELOW IS NOT EXECUTING!!!!!!!!!!!!!!!!!!!!
-    # run like this: python3 question_2_script.py question_2_sample_data.csv
+    #start reading the full data
     #
-    
-    file_reader = csv.reader(namedata_fh)
+    full_data_reader = csv.reader(full_data_fh)
     
     read_first_line = False # set it back to false
     
-    for row_data_fields in file_reader:
+    for row_data_fields in full_data_reader:
         
         if not read_first_line: #skip reading the header
             read_first_line = True
@@ -178,84 +193,71 @@ def main(argv):
         job_vacancy_characteristics = row_data_fields[4] # the education level
         status = row_data_fields[13]
         
-        index_of_job = list_of_occupations.index(national_Occupational_Classification)
-        index_of_education = list_of_education_levels.index(job_vacancy_characteristics)
+        #getting num job vacancies and catching ValueError:
+        try: 
+            num_job_vacancies = int(row_data_fields[12])
+        except ValueError: 
+            continue #skip over this line
+       
         
-        # print("Index job: ", list_of_occupations.index(national_Occupational_Classification))
-        # print("Index education: ", list_of_education_levels.index(job_vacancy_characteristics))
+        # if found the data we are looking for and status is not "E" or "F", add to the correct the frequency
+        if (national_Occupational_Classification in list_of_occupations) and (job_vacancy_characteristics in list_of_education_levels) and (status != "E" or status != "F"):
+            index_of_job = list_of_occupations.index(national_Occupational_Classification)
+            index_of_education = list_of_education_levels.index(job_vacancy_characteristics)
         
-        education_occurancies_per_occupation[index_of_job][index_of_education] += 1
+            education_occurancies_per_occupation[index_of_job][index_of_education] += int(num_job_vacancies) #incrementing that specific index
         
     
-    #printing after filling
-    print("#############################")
-    for i in education_occurancies_per_occupation:
-        for j in i:
-            print(j, end = " ")
-        print()
+    # #printing after filling if need be
+    # print("PRINTING MATRIX AFTER FILLING")
+    # for i in education_occurancies_per_occupation:
+    #     for j in i:
+    #         print(j, end = " ")
+    #     print()
     
     # printing final product:
-    print("\"Occupation\",\"Education Level Value\"")
+    print("\"Occupation\",\"Most_Frequent_Education_Level\",\"Most_Frequent_Value\",\"Most_Frequent_Index\",\"Second_Most_Frequent_Education_Level\",\"Second_Most_Frequent_Value\",\"Second_Most_Frequent_Index\"")
     
+    
+    #variables used to find greatest occurrence 
     greatest_value = -1
-    greatest_index = 0
+    first_greatest_index = 0
+    second_greatest_index = 0
+    
     
     for job in list_of_occupations:
         
         index_of_job = list_of_occupations.index(job)
         
-        #find education level with most occurancies
-        for i in range(0, len(education_occurancies_per_occupation[index_of_job])):
+        #find education level with most occurancies. Ignore the first education level which is "Minimum level of education required, all levels"
+        for i in range(1, len(education_occurancies_per_occupation[index_of_job])):
+            
             if education_occurancies_per_occupation[index_of_job][i] > greatest_value:
-                greatest_index = i
+                
+                greatest_value = education_occurancies_per_occupation[index_of_job][i]
+                first_greatest_index = i
         
-        print(f"\"{job}\",\"{education_occurancies_per_occupation[index_of_job][greatest_index]}\"")
+        #find education level with the second most occurancies. Ignore the first education level which is "Minimum level of education required, all levels"
+        
+        greatest_value = -1 #set greatest value back to default
+        
+        for i in range(1, len(education_occurancies_per_occupation[index_of_job])):
+            
+            if i != first_greatest_index:
+                
+                if education_occurancies_per_occupation[index_of_job][i] > greatest_value:
+                    
+                    greatest_value = education_occurancies_per_occupation[index_of_job][i]
+                    second_greatest_index = i
+        
+        #print it
+        print(f"\"{job}\",\"{list_of_education_levels[first_greatest_index]}\",\"{education_occurancies_per_occupation[index_of_job][first_greatest_index]}\",\"{first_greatest_index}\",\"{list_of_education_levels[second_greatest_index]}\",\"{education_occurancies_per_occupation[index_of_job][second_greatest_index]}\",\"{second_greatest_index}\"")
         
         #set values back to default for next iteration
-        greates_value = -1
-        greatest_index = 0      
+        greatest_value = -1
+        first_greatest_index = 0
+        second_greatest_index = 0    
                 
-        
-            
-        
-        
-        
-            
-                
-
-        # #reading the header
-        # if not read_first_line:
-        #     REF_DATE = row_data_fields[0]
-        #     GEO = row_data_fields[1]
-        #     National_Occupational_Classification = row_data_fields[3]
-        #     job_vacancy_characteristics = row_data_fields[4]
-        #     statistics = row_data_fields[5]
-        #     VALUE = row_data_fields[12]
-
-        #     print(f"{REF_DATE},{GEO},{National_Occupational_Classification},{job_vacancy_characteristics},{statistics},{VALUE}")
-
-        #     read_first_line = True
-        
-        # #reading the rest of the data
-        # if read_first_line:
-        #     REF_DATE = row_data_fields[0]
-        #     GEO = row_data_fields[1]
-        #     National_Occupational_Classification = row_data_fields[3]
-        #     job_vacancy_characteristics = row_data_fields[4]
-        #     statistics = row_data_fields[5]
-        #     VALUE = row_data_fields[12]
-
-        #     #checking if VALUE is empty
-        #     if VALUE == '':
-        #         VALUE = '0'
-            
-        #     #printing filtered data
-        #     if GEO == region_Name:
-        #         if National_Occupational_Classification == "Software engineers and designers [2173]":
-        #             if job_vacancy_characteristics == "Bachelor's degree":
-        #                 if statistics == "Job vacancies":
-                        
-        #                     print(f"{REF_DATE},{GEO},{National_Occupational_Classification},{job_vacancy_characteristics},{statistics},{VALUE}")
 
     #
     #   End of Function
