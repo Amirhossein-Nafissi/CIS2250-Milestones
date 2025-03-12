@@ -2,32 +2,36 @@
 '''
 question_1_script.py
   Author(s): Arya Rahimian Emam (1319709)
-  Earlier contributors(s):
+  Earlier contributors(s): Andrew Hamilton-Wright, Amirhossein Nafissi (1319709), Felix Nguyen (1316719)
 
   Project: Milestone II
   Date of Last Update: March 11, 2025.
 
   Functional Summary
-      question_1_script.py takes in a CSV (comma separated version) file 
+      question_1_script.py takes in 2 CSV (comma separated version) files 
       and prints out the fields according to the command line parameters found below:
 
       There are expected to be three fields:
-          1. data file to process
-          2. an argument indicating either the name of a province, 
-            or the word “Canada” which will extract only the national data.
+          1. job vacancy data file to process
+          2. weekly earnings data file to process
 
-      First it prints the header, and then prints the fields that are the same as the command line parameters.
-      The data is also filtered by only showing "Software engineers and designers [2173]" for National Occupational Classification
-      and "Job vacancies" for Statistics.
 
-     Commandline Parameters: 1
-        argv[1] - data file to load the fields process
-        argv[2] - data file that contains all other data
+    
+      First, the script records job vacancy data for each industry from every month of 2023.
+      Next, it calculates the average job vacancy for each industry over the entire year.
+      Then, it retrieves the weekly earnings data for each industry in 2023.
+      Then, it computes a ratio between job vacancies and salary
+      Finally, it prints the average job vacancy, weekly earnings and vacancy-to-salary ratio for each industry.
+     
+     
+     Commandline Parameters: 2
+        argv[1] - job_vacancies.csv
+        argv[2] - weekly_earnings.csv
         
-        How to Run: python3 question_2_script.py question_2_sample_data.csv 14100328.csv > [file_output_name].csv
-
+        How to Run: python3 question_1_script.py job_vacancies.csv weekly_earnings.csv > question_1_output.csv
      References
-        The data is taked from 
+        The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037201&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2023&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20230101%2C20231201
+        and https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410020401&pickMembers%5B0%5D=1.1&pickMembers%5B1%5D=2.1&pickMembers%5B2%5D=3.1&cubeTimeFrame.startYear=2019&cubeTimeFrame.endYear=2023&referencePeriods=20190101%2C20230101
 '''
 
 #
@@ -83,29 +87,24 @@ def main(argv):
 
     # Read job vacancies data
     job_reader = csv.reader(job_fh)
-    job_header = next(job_reader)  # Read header row 
 
-    # Dynamically find column indices (this idea as well as the next() function above was taken from https://chatgpt.com/)
-    date_idx = job_header.index("REF_DATE")
-    industry_idx = job_header.index("North American Industry Classification System (NAICS)")
-    value_idx = job_header.index("VALUE")
-    status_idx = job_header.index("STATUS")
+
 
     job_vacancies = {} #initialize dictionary
 
     for row in job_reader:
-        date = row[date_idx]
-        industry = row[industry_idx].strip().lower() #remove space and covert to lowercase
-        vacancies = row[value_idx]
-        status = row[status_idx]
+        date = row[0]
+        industry = row[3].strip().lower() #remove space and covert to lowercase
+        vacancies = row[11]
+        status = row[12]
+        field = row[4]
 
         year = date.split("-")[0] #split at the dash and keep the 0th element
 
-        if year == "2023" and status not in ["E", "F"] and vacancies.strip(): #skips empty cells
+        if year == "2023" and field == "Job vacancies" and status not in ["E", "F"] and vacancies.strip(): #skips empty cells
             try:
                 vacancies = float(vacancies)
-                if industry not in job_vacancies:
-                    job_vacancies[industry] = [0, 0] #if industry is not in the dictionary yet, initialize it
+                job_vacancies[industry] = [0,0]
                 job_vacancies[industry][0] += vacancies #increments sum of job vacancies
                 job_vacancies[industry][1] += 1 #increments month
             except ValueError:
@@ -126,27 +125,24 @@ def main(argv):
 
     # Read salary data
     earnings_reader = csv.reader(earnings_fh)
-    earnings_header = next(earnings_reader)  # Read header row
 
-    # Dynamically find column indices 
-    industry_idx = earnings_header.index("North American Industry Classification System (NAICS)")
-    value_idx = earnings_header.index("VALUE")
-    status_idx = earnings_header.index("STATUS")
 
     earnings_dict = {}
 
     for row in earnings_reader:
-        industry = row[industry_idx].strip().lower()
-        weekly_earnings = row[value_idx]
-        status = row[status_idx]
+        year = row[0]  # Extract REF_DATE
+        industry = row[5].strip().lower()
+        weekly_earnings = row[12]
+        status = row[13]
 
-        if status in ["E", "F"] or not weekly_earnings.strip():
-            continue
+        
 
-        try:
-            earnings_dict[industry] = float(weekly_earnings)
-        except ValueError:
-            continue
+        if year == "2023" and status not in ["E", "F"] and weekly_earnings.strip():
+            try:
+                earnings_dict[industry] = float(weekly_earnings)
+            except ValueError:
+                continue  # Skip invalid data   
+
 
     job_fh.close()
     earnings_fh.close()
@@ -166,5 +162,5 @@ def main(argv):
             ratio = avg_vacancies / salary
         #print only 3 deciamls
         print(f"\"{industry}\",\"{avg_vacancies:.3f}\",\"{salary:.3f}\",\"{ratio:.3f}\"")
-
+        
 main(sys.argv)
