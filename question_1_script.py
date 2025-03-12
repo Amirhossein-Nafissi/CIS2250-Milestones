@@ -11,11 +11,9 @@ question_1_script.py
       question_1_script.py takes in 2 CSV (comma separated version) files 
       and prints out the fields according to the command line parameters found below:
 
-      There are expected to be three fields:
+      There are expected to be two parameters:
           1. job vacancy data file to process
           2. weekly earnings data file to process
-
-
     
       First, the script records job vacancy data for each industry from every month of 2023.
       Next, it calculates the average job vacancy for each industry over the entire year.
@@ -23,13 +21,13 @@ question_1_script.py
       Then, it computes a ratio between job vacancies and salary
       Finally, it prints the average job vacancy, weekly earnings and vacancy-to-salary ratio for each industry.
      
-     
-     Commandline Parameters: 2
+      Commandline Parameters: 2 
         argv[1] - job_vacancies.csv
         argv[2] - weekly_earnings.csv
         
         How to Run: python3 question_1_script.py job_vacancies.csv weekly_earnings.csv > question_1_output.csv
-     References
+        
+      References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037201&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2023&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20230101%2C20231201
         and https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410020401&pickMembers%5B0%5D=1.1&pickMembers%5B1%5D=2.1&pickMembers%5B2%5D=3.1&cubeTimeFrame.startYear=2019&cubeTimeFrame.endYear=2023&referencePeriods=20190101%2C20230101
 '''

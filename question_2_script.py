@@ -2,7 +2,7 @@
 
 '''
 question_2_script.py
-  Author(s): Amirhossein Nafissi (1319709) #####################
+  Author(s): Amirhossein Nafissi (1319709)
   Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright, Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
 
   Project: Milestone II
@@ -12,22 +12,22 @@ question_2_script.py
       question_2_script.py takes in a CSV (comma separated version) file 
       and prints out the fields according to the command line parameters found below:
 
-      There are expected to be three fields:
-          1. data file to process
-          2. an argument indicating either the name of a province, 
-            or the word “Canada” which will extract only the national data.
+      There are expected to be two parameters:
+          1. data file to load the fields that need to be processed in the main data
+          2. data file that contains the main data to be processed
+ 
+      The script first loads the nessesary fields of occupation and education level from the first
+      file, and then uses them to seach through and collect the data in the second file. It will then
+      output it's findings in a CSV file structure. The first two frequent education levels will be printed for each
+      occupation, as well as their indices and the amount of job vacancies found.
 
-      First it prints the header, and then prints the fields that are the same as the command line parameters.
-      The data is also filtered by only showing "Software engineers and designers [2173]" for National Occupational Classification
-      and "Job vacancies" for Statistics.
-
-     Commandline Parameters: 1
-        argv[1] - data file to load the fields process
+      Commandline Parameters: 1
+        argv[1] - data file to load the fields that need to be processed in the main data
         argv[2] - data file that contains all other data
         
         How to Run: python3 question_2_script.py question_2_loading_data.csv 14100328.csv > question_2_output.csv
 
-     References
+      References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410032805 
 '''
 
