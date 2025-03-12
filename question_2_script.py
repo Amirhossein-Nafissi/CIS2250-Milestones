@@ -6,7 +6,7 @@ question_2_script.py
   Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright, Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
 
   Project: Milestone II
-  Date of Last Update: March 11, 2025.
+  Date of Last Update: March 12, 2025.
 
   Functional Summary
       question_2_script.py takes in a CSV (comma separated version) file 
