@@ -15,15 +15,16 @@ question_1_script.py
           1. job vacancy data file to process
           2. weekly earnings data file to process
     
-      First, the script records job vacancy data for each industry from every month of 2023.
+      First, the script records job vacancy data for each industry from every month of the selected year.
       Next, it calculates the average job vacancy for each industry over the entire year.
-      Then, it retrieves the weekly earnings data for each industry in 2023.
+      Then, it retrieves the weekly earnings data for each industry.
       Then, it computes a ratio between job vacancies and salary
       Finally, it prints the average job vacancy, weekly earnings and vacancy-to-salary ratio for each industry.
      
       Commandline Parameters: 2 
         argv[1] - job_vacancies.csv
         argv[2] - weekly_earnings.csv
+        argv[3] - year that you want the data for
         
         How to Run: python3 question_1_script.py job_vacancies.csv weekly_earnings.csv > question_1_output.csv
         
@@ -45,7 +46,7 @@ def main(argv):
     #   Check that we have been given the right number of parameters,
     #
     
-    if len(argv) != 3:
+    if len(argv) != 4:
         
         print("Not enough arguments")
         
@@ -54,7 +55,7 @@ def main(argv):
     #getting file names from command line:
     job_vacancies_file = sys.argv[1]
     earnings_file = sys.argv[2]
-
+    year_input = sys.argv[3]
     
     #opening files and error handeling:
     
@@ -99,7 +100,7 @@ def main(argv):
 
         year = date.split("-")[0] #split at the dash and keep the 0th element
 
-        if year == "2023" and field == "Job vacancies" and status not in ["E", "F"] and vacancies.strip(): #skips empty cells
+        if year == year_input and field == "Job vacancies" and status not in ["E", "F"] and vacancies.strip(): #skips empty cells
             try:
                 vacancies = float(vacancies)
                 job_vacancies[industry] = [0,0]
@@ -135,7 +136,7 @@ def main(argv):
 
         
 
-        if year == "2023" and status not in ["E", "F"] and weekly_earnings.strip():
+        if year == year_input and status not in ["E", "F"] and weekly_earnings.strip():
             try:
                 earnings_dict[industry] = float(weekly_earnings)
             except ValueError:
