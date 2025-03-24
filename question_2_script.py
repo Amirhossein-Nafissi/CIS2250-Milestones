@@ -12,9 +12,10 @@ question_2_script.py
       question_2_script.py takes in a CSV (comma separated version) file 
       and prints out the fields according to the command line parameters found below:
 
-      There are expected to be two parameters:
+      There are expected to be three parameters:
           1. data file to load the fields that need to be processed in the main data
           2. data file that contains the main data to be processed
+          3. the year (2015 - 2025) that the data is based on
  
       The script first loads the nessesary fields of occupation and education level from the first
       file, and then uses them to seach through and collect the data in the second file. It will then
@@ -24,8 +25,9 @@ question_2_script.py
       Commandline Parameters: 1
         argv[1] - data file to load the fields that need to be processed in the main data
         argv[2] - data file that contains all other data
+        argv[3] - the year that is of focus
         
-        How to Run: python3 question_2_script.py question_2_loading_data.csv 14100328.csv > question_2_output.csv
+        How to Run: python3 question_2_script.py question_2_loading_data.csv 14100328.csv [year] > question_2_output_[year].csv
 
       References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410032805 
@@ -64,7 +66,7 @@ def main(argv):
     #
     #   Check that we have been given the right number of parameters,
     #
-    if len(argv) != 3:
+    if len(argv) != 4:
         print("Not enough arguments")
 
         # we exit with a zero when everything goes well, so we choose
@@ -74,6 +76,13 @@ def main(argv):
     #getting command line arguments
     load_data_filename = sys.argv[1]
     full_data_filename = sys.argv[2]
+    
+    #getting the year and error handeling:
+    try:
+        year = int(sys.argv[3])
+    except ValueError:
+        print("Unable to cast inputted year to an integer")
+        sys.exit(1)
     
 
     #
@@ -187,6 +196,7 @@ def main(argv):
             read_first_line = True
             continue
         
+        reference_data = row_data_fields[0] #the year of the sample
         national_Occupational_Classification = row_data_fields[3] # the occupation
         job_vacancy_characteristics = row_data_fields[4] # the education level
         status = row_data_fields[13]
@@ -198,8 +208,8 @@ def main(argv):
             continue #skip over this line
        
         
-        # if found the data we are looking for and status is not "E" or "F", add to the correct the frequency
-        if (national_Occupational_Classification in list_of_occupations) and (job_vacancy_characteristics in list_of_education_levels) and (status != "E" or status != "F"):
+        # if found the data we are looking for and status is not "E" or "F", and the years match, add to the correct the frequency
+        if (national_Occupational_Classification in list_of_occupations) and (job_vacancy_characteristics in list_of_education_levels) and (year in reference_data) and (status != "E" or status != "F"):
             index_of_job = list_of_occupations.index(national_Occupational_Classification)
             index_of_education = list_of_education_levels.index(job_vacancy_characteristics)
         
@@ -214,7 +224,7 @@ def main(argv):
     #     print()
     
     # printing final product:
-    print("\"Occupation\",\"Most_Frequent_Education_Level\",\"Most_Frequent_Value\",\"Most_Frequent_Index\",\"Second_Most_Frequent_Education_Level\",\"Second_Most_Frequent_Value\",\"Second_Most_Frequent_Index\"")
+    print("\"Occupation\",\"Most_Frequent_Education_Level\",\"Most_Frequent_Valencies\",\"Most_Frequent_Index\",\"Second_Most_Frequent_Education_Level\",\"Second_Most_Frequent_Valencies\",\"Second_Most_Frequent_Index\"")
     
     
     #variables used to find greatest occurrence 
