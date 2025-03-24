@@ -20,14 +20,29 @@ Question1GraphScript.py
         Youtube video used to help with plotting the graph: https://www.youtube.com/watch?v=zwSJeIcRFuQ and https://www.youtube.com/watch?v=1M65rAAcl5E 
 
 '''
-
+#required libraries
 import pandas as pd 
 import matplotlib.pyplot as plt 
 import matplotlib
 import numpy
 
+import sys
+
+# Check that we have been given the right number of command line arguments,
+if len(sys.argv) != 4:
+    print("Not enough arguments")
+    sys.exit(1)
+
+#getting command line arguments:
+
+data_file_name = sys.argv[1]
+output_file_name = sys.argv[2]
+year = sys.argv[3]
+
+
+
 # Read the CSV file
-file = pd.read_csv("question_2_output.csv")
+file = pd.read_csv(data_file_name)
 
 '''Data Set'''
 # Take the occupation names and display them on the x-axis
@@ -42,7 +57,7 @@ index2 = file['Second_Most_Frequent_Index']
 positions2 = numpy.arange(len(index2))
 width = 0.4
 
-# This loop is used to the industries name readable in the graph
+# This loop is used to make the industries name readable in the graph
 for i in range(len(occupation)):
     occupation[i] = occupation[i].replace(" ", "\n")
 
@@ -54,7 +69,7 @@ plt.figure(figsize=(14, 6))
 # Label for x-axis, y-axis and title
 plt.xlabel('Industry')
 plt.ylabel('Most Frequent Index')
-plt.title('How does the average educational level vary across different employment sectors in Canada?')
+plt.title(f'How does the average educational level vary across different employment sectors in Canada for {year}?')
 
 # Replace axis label 
 plt.xticks(positions, occupation, rotation=0, ha='center', fontsize=7)
@@ -69,5 +84,8 @@ plt.bar(positions+width/2, index2, width, label='Second Most Frequent Index', co
 # Display Legend Top Right
 plt.legend()
 
+#save the file
+plt.savefig(output_file_name, bbox_inches = "tight")
+
 # Display bar graph
-plt.show()
+# plt.show() #uncomment to display the GUI
