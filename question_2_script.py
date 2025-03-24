@@ -79,10 +79,12 @@ def main(argv):
     
     #getting the year and error handeling:
     try:
-        year = int(sys.argv[3])
+        dummy_year = int(sys.argv[3])
     except ValueError:
-        print("Unable to cast inputted year to an integer")
+        print("year inputted is not an integer")
         sys.exit(1)
+    
+    year = sys.argv[3]
     
 
     #
