@@ -26,7 +26,7 @@ question_1_script.py
         argv[2] - weekly_earnings.csv
         argv[3] - year that you want the data for
         
-        How to Run: python3 question_1_script.py job_vacancies.csv weekly_earnings.csv > question_1_output.csv
+        How to Run: python3 question_1_preprocessing_script.py job_vacancies.csv weekly_earnings.csv [year] > question_1_output_[year].csv
         
       References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037201&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2023&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20230101%2C20231201
@@ -63,12 +63,14 @@ def main(argv):
         print("year inputted is not an integer")
         sys.exit(1)
 
-    year_input = sys.argv[3]
-
     #checking if year is the correct range
-    if year_input < 2015 or year_input > 2023:
+    if dummy_year < 2015 or dummy_year > 2023:
         print("year inputted is not an in the range of 2015 - 2023")
         sys.exit(1)
+
+    year_input = sys.argv[3]
+
+    
     
     #opening files and error handeling:
     try: 
