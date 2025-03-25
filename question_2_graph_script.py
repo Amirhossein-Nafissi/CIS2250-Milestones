@@ -75,7 +75,7 @@ plt.figure(figsize=(14, 6))
 
 # Label for x-axis, y-axis and title
 plt.xlabel('Industry')
-plt.ylabel('Most Frequent Index')
+plt.ylabel('Education Level Index')
 plt.title(f'How does the average educational level vary across different employment sectors in Canada for {year}?')
 
 # Replace axis label 
@@ -85,8 +85,8 @@ plt.xticks(positions, occupation, rotation=0, ha='center', fontsize=7)
 plt.subplots_adjust(bottom=0.2)
 
 # Plot bar graph
-plt.bar(positions-width/2, index, width, label='Most Frequent Index', color='red')
-plt.bar(positions+width/2, index2, width, label='Second Most Frequent Index', color='blue')
+plt.bar(positions-width/2, index, width, label='Most Frequent Education Level', color='red')
+plt.bar(positions+width/2, index2, width, label='Second Most Frequent Education Level', color='blue')
 
 # Display Legend Top Right
 plt.legend()

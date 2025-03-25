@@ -22,12 +22,12 @@ question_2_script.py
       output it's findings in a CSV file structure. The first two frequent education levels will be printed for each
       occupation, as well as their indices and the amount of job vacancies found.
 
-      Commandline Parameters: 1
+      Commandline Parameters: 3
         argv[1] - data file to load the fields that need to be processed in the main data
         argv[2] - data file that contains all other data
         argv[3] - the year that is of focus
         
-        How to Run: python3 question_2_script.py question_2_loading_data.csv 14100328.csv [year] > question_2_output_[year].csv
+        How to Run: python3 question_2_preprocessing_script.py question_2_loading_data.csv 14100328.csv [year] > question_2_output_[year].csv
 
       References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410032805 
@@ -204,7 +204,7 @@ def main(argv):
             read_first_line = True
             continue
         
-        reference_data = row_data_fields[0] #the year of the sample
+        reference_year = row_data_fields[0] #the year of the sample
         national_Occupational_Classification = row_data_fields[3] # the occupation
         job_vacancy_characteristics = row_data_fields[4] # the education level
         status = row_data_fields[13]
@@ -217,7 +217,7 @@ def main(argv):
        
         
         # if found the data we are looking for and status is not "E" or "F", and the years match, add to the correct the frequency
-        if (national_Occupational_Classification in list_of_occupations) and (job_vacancy_characteristics in list_of_education_levels) and (year in reference_data) and (status != "E" or status != "F"):
+        if (national_Occupational_Classification in list_of_occupations) and (job_vacancy_characteristics in list_of_education_levels) and (year in reference_year) and (status != "E" or status != "F"):
             index_of_job = list_of_occupations.index(national_Occupational_Classification)
             index_of_education = list_of_education_levels.index(job_vacancy_characteristics)
         
