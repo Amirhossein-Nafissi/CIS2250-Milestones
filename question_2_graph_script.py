@@ -12,7 +12,14 @@ Question1GraphScript.py
         2. Industry names is set to the x-axis and Index value for the y-axis
         3. Adjusted some minor fixes to make the industry names readable and the size of the graph
         4. Display the information in a visual bar chart with legend to see which bar is which
+
+      Commandline Parameters: 3
+        argv[1] - file name of the data that will be graphed
+        argv[2] - file name of the output destination to store the graph
+        argv[3] - the year that is of focus (will only be used to change the title)
         
+        How to Run: python3 question_2_graph_script.py question_2_output_(year).csv (year)_graph_question_2.png (year)
+
       References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037201&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2023&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20230101%2C20231201
         and https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410020401&pickMembers%5B0%5D=1.1&pickMembers%5B1%5D=2.1&pickMembers%5B2%5D=3.1&cubeTimeFrame.startYear=2019&cubeTimeFrame.endYear=2023&referencePeriods=20190101%2C20230101

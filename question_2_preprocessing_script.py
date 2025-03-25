@@ -84,7 +84,13 @@ def main(argv):
         print("year inputted is not an integer")
         sys.exit(1)
     
+    #checking if year is the correct range
+    if dummy_year < 2015 or dummy_year > 2025:
+        print("year inputted is not an in the range of 2015 - 2023")
+        sys.exit(1)
+
     year = sys.argv[3]
+    
     
 
     #

@@ -55,10 +55,22 @@ def main(argv):
     #getting file names from command line:
     job_vacancies_file = sys.argv[1]
     earnings_file = sys.argv[2]
+
+    #getting the year and error handeling:
+    try:
+        dummy_year = int(sys.argv[3])
+    except ValueError:
+        print("year inputted is not an integer")
+        sys.exit(1)
+
     year_input = sys.argv[3]
+
+    #checking if year is the correct range
+    if year_input < 2015 or year_input > 2023:
+        print("year inputted is not an in the range of 2015 - 2023")
+        sys.exit(1)
     
     #opening files and error handeling:
-    
     try: 
         job_fh = open(job_vacancies_file, encoding="utf-8-sig") #for first file
 
