@@ -67,9 +67,9 @@ positions = range(len(ratios))
 plt.figure(figsize=(14, 6))
 
 # Labels for xaxis, yaxis and title
-plt.xlabel('Industry')
-plt.ylabel('Vacancy-to-Salary Ratio')
-plt.title(f'Do industries with higher job vacancies offer lower salaries in {year}?')
+plt.xlabel('Industry', fontweight='bold')
+plt.ylabel('Vacancy-to-Salary Ratio', fontweight='bold')
+plt.title(f'Do industries with higher job vacancies offer lower salaries in {year}?', fontweight='bold')
 
 # Replace axis label 
 plt.xticks(positions, industries, rotation=0, ha='center', fontsize=7)

@@ -266,8 +266,9 @@ def main(argv):
                     greatest_value = education_occurancies_per_occupation[index_of_job][i]
                     second_greatest_index = i
         
-        #print it
-        print(f"\"{job}\",\"{list_of_education_levels[first_greatest_index]}\",\"{education_occurancies_per_occupation[index_of_job][first_greatest_index]}\",\"{first_greatest_index}\",\"{list_of_education_levels[second_greatest_index]}\",\"{education_occurancies_per_occupation[index_of_job][second_greatest_index]}\",\"{second_greatest_index}\"")
+        #print it, ignore "Unclassified occupations"
+        if job != "Unclassified occupations":
+            print(f"\"{job}\",\"{list_of_education_levels[first_greatest_index]}\",\"{education_occurancies_per_occupation[index_of_job][first_greatest_index]}\",\"{first_greatest_index}\",\"{list_of_education_levels[second_greatest_index]}\",\"{education_occurancies_per_occupation[index_of_job][second_greatest_index]}\",\"{second_greatest_index}\"")
         
         #set values back to default for next iteration
         greatest_value = -1

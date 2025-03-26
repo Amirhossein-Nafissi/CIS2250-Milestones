@@ -74,9 +74,9 @@ for i in range(len(occupation)):
 plt.figure(figsize=(14, 6))
 
 # Label for x-axis, y-axis and title
-plt.xlabel('Industry')
-plt.ylabel('Education Level Index')
-plt.title(f'How does the average educational level vary across different employment sectors in Canada for {year}?')
+plt.xlabel('Industry', fontweight='bold')
+plt.ylabel('Education Level Index', fontweight='bold')
+plt.title(f'How does the average educational level vary across different employment sectors in Canada for {year}?', fontweight='bold')
 
 # Replace axis label 
 plt.xticks(positions, occupation, rotation=0, ha='center', fontsize=7)
