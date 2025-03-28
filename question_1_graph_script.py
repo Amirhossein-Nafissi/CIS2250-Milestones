@@ -1,10 +1,10 @@
 '''
-Question1GraphScript.py
+question_1_graph_script.py
   Author(s): Felix Nguyen (1316719)
   Earlier contributors(s): Andrew Hamilton-Wright, Amirhossein Nafissi (1319709), Arya Rahimian Emam (1319709)
 
   Project: Milestone III
-  Date of Last Update: March 13, 2025.
+  Date of Last Update: March 28, 2025.
 
   Functional Summary
       

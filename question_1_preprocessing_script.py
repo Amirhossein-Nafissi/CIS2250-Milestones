@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 '''
-question_1_script.py
+question_1_preprocessing_script.py
   Author(s): Arya Rahimian Emam (1319709)
   Earlier contributors(s): Andrew Hamilton-Wright, Amirhossein Nafissi (1319709), Felix Nguyen (1316719)
 
-  Project: Milestone II
-  Date of Last Update: March 12, 2025.
+  Project: Milestone III
+  Date of Last Update: March 28, 2025.
 
   Functional Summary
-      question_1_script.py takes in 2 CSV (comma separated version) files 
+      question_1_preprocessing_script.py takes in 2 CSV (comma separated version) files 
       and prints out the fields according to the command line parameters found below:
 
       There are expected to be two parameters:
           1. job vacancy data file to process
           2. weekly earnings data file to process
+          3. the year the data is based on
     
       First, the script records job vacancy data for each industry from every month of the selected year.
       Next, it calculates the average job vacancy for each industry over the entire year.
@@ -21,7 +22,7 @@ question_1_script.py
       Then, it computes a ratio between job vacancies and salary
       Finally, it prints the average job vacancy, weekly earnings and vacancy-to-salary ratio for each industry.
      
-      Commandline Parameters: 2 
+      Commandline Parameters: 3 
         argv[1] - job_vacancies.csv
         argv[2] - weekly_earnings.csv
         argv[3] - year that you want the data for

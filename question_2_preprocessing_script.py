@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 '''
-question_2_script.py
+question_2_preprocessing_script.py
   Author(s): Amirhossein Nafissi (1319709)
   Earlier contributors(s): Deborah Stacey, Andrew Hamilton-Wright, Arya Rahimian Emam (1315123), Felix Nguyen (1316719)
 
-  Project: Milestone II
-  Date of Last Update: March 12, 2025.
+  Project: Milestone III
+  Date of Last Update: March 28, 2025.
 
   Functional Summary
-      question_2_script.py takes in a CSV (comma separated version) file 
+      question_2_preprocessing_script.py takes in a CSV (comma separated version) file 
       and prints out the fields according to the command line parameters found below:
 
       There are expected to be three parameters:
