@@ -18,7 +18,7 @@ question_1_graph_script.py
         argv[2] - file name of the output destination to store the graph
         argv[3] - the year that is of focus (will only be used to change the title)
         
-        How to Run: python3 question_1_graph_script.py question_1_output_(year).csv (year)_graph_question_1.png (year)
+        How to Run: python3 question_1_graph_script.py question_1_output_[year].csv question_1_graph_[year].png [year]
 
       References
         The data is taked from https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037201&cubeTimeFrame.startMonth=01&cubeTimeFrame.startYear=2023&cubeTimeFrame.endMonth=12&cubeTimeFrame.endYear=2023&referencePeriods=20230101%2C20231201
