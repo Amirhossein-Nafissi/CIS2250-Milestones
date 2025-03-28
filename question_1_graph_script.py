@@ -64,7 +64,7 @@ ratios = file['Vacancy-to-Salary Ratio']
 positions = range(len(ratios))
 
 # Setting Figure Size
-plt.figure(figsize=(14, 6))
+plt.figure(figsize=(17, 6))
 
 # Labels for xaxis, yaxis and title
 plt.xlabel('Industry', fontweight='bold')
